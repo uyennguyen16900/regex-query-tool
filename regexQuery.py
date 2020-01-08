@@ -21,5 +21,5 @@ def regex_query(regex, test_string):
 
 regex = r"([A-Z])\w+"
 
-test_str = ("Lorem ipsum dolor sit amet, nam no malis graecis incorrupte. Dicunt insolens sed ex, ut saepe quaerendum eam. Eum no quas tempor impetus, in per expetendis reprimique mediocritatem. Meis erant facilisi cu ius, utroque moderatius voluptatibus no nam. Pri an graecis torquatos accommodare. Quodsi everti ei qui")
+test_str = "Lorem ipsum dolor sit amet, nam no malis graecis incorrupte. Dicunt insolens sed ex, ut saepe quaerendum eam. Eum no quas tempor impetus, in per expetendis reprimique mediocritatem. Meis erant facilisi cu ius, utroque moderatius voluptatibus no nam. Pri an graecis torquatos accommodare. Quodsi everti ei qui"
 print(regex_query(regex, test_str))

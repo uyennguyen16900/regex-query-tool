@@ -3,17 +3,21 @@
 {% block content %}
   <p>{{ matches }} matches</p>
 
-  <!-- scoping issue - if you set 'i' outside the loop, you can't modify it inside the loop. -->
   {% set i = namespace(a=0) %}
-  {% for word in test_str -%}
-    {% if loop.index0 >= indices[i.a][0] and loop.index0 <= indices[i.a][1] %}
-      <div style="background-color:blue">
+  {% if indices|length == 0 %}
+    <p>No Match</p>
+  {% else %}
+    {% for word in test_str -%}
+      {% if loop.index0 >= indices[i.a][0] and loop.index0 <= indices[i.a][1] %}
+        <div style="background-color:blue">
+          {{ word }}
+        </div>
+        {{indices[i.a][0]}}
+      {% elif i.a < (indices|length) - 1 and loop.index0 == indices[i.a][1] + 1 %}
+        {% set i.a = i.a + 1 %}
+      {% else %}
         {{ word }}
-      </div>
-    {% elif loop.index0 == indices[i.a][1] + 1 %}
-      {% set i.a = i.a + 1 %}
-    {% else %}
-      {{ word }}
-    {% endif %}
-  {%- endfor %}
+      {% endif %}
+    {%- endfor %}
+  {% endif %}
 {% endblock %}
