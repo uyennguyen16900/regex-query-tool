@@ -8,16 +8,16 @@
     <p>No Match</p>
   {% else %}
     {% for word in test_str -%}
-      {% if loop.index0 >= indices[i.a][0] and loop.index0 <= indices[i.a][1] %}
+      {%- if loop.index0 >= indices[i.a][0] and loop.index0 <= indices[i.a][1] -%}
         <div style="background-color:blue">
           {{ word }}
         </div>
         {{indices[i.a][0]}}
-      {% elif i.a < (indices|length) - 1 and loop.index0 == indices[i.a][1] + 1 %}
+      {%- elif i.a < (indices|length) - 1 and loop.index0 == indices[i.a][1] + 1 -%}
         {% set i.a = i.a + 1 %}
-      {% else %}
+      {%- else -%}
         {{ word }}
-      {% endif %}
+      {%- endif -%}
     {%- endfor %}
   {% endif %}
 {% endblock %}
