@@ -5,7 +5,7 @@ def regex_query(regex, test_string):
     list_tuples_indices = []
     matches = re.finditer(regex, test_string, re.MULTILINE)
 
-    matchNums = 0
+    list_matches = []
     for matchNum, match in enumerate(matches, start=1):
         print ("Match {matchNum} was found at {start}-{end}: {match}".format(matchNum = matchNum, start = match.start(), end = match.end(), match = match.group()))
         tuple_start_end_indices = match.start(), match.end()
@@ -15,9 +15,9 @@ def regex_query(regex, test_string):
         #     groupNum = groupNum + 1
         #
         #     print ("Group {groupNum} found at {start}-{end}: {group}".format(groupNum = groupNum, start = match.start(groupNum), end = match.end(groupNum), group = match.group(groupNum)))
-        matchNums = matchNum
 
-    return matchNums, list_tuples_indices
+        list_matches.append(match.group())
+    return list_matches, list_tuples_indices
 
 regex = r"([A-Z])\w+"
 
