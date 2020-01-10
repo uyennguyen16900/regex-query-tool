@@ -1,36 +1,71 @@
 {% extends 'base.html' %}
-
 {% block content %}
-  <p>{{ matches|length }} matches</p>
-
-  {% set i = namespace(a=0) %}
-  {% if indices|length == 0 %}
-    {% for word in test_str -%}
-      {{ word }}
-    {%- endfor %}
-  {% else %}
-    {% for word in test_str -%}
-      {%- if loop.index0 >= indices[i.a][0] and loop.index0 <= indices[i.a][1] -%}
-        <span style="background-color:#abeaff;color:#0286b3">
-          {{- word -}}
-        </span>
-      {%- elif i.a < (indices|length) - 1 and loop.index0 == indices[i.a][1] + 1 -%}
-        {% set i.a = i.a + 1 %}
-      {%- else -%}
-        {{ word }}
-      {%- endif -%}
-    {%- endfor %}
-  {% endif %}
-
-  <!-- scrollspy -->
-  <div class="col-3">
-    <div data-spy="scroll" data-target="#myScrollspy" data-offset="10"
-    style="height:200px;overflow-y: scroll;padding:5px; border: 1px solid #ccc;">
-      {% for match in matches %}
-        <h5>Match {{ loop.index }}</h5>
-        <p><span style="color:#9d9d9e">{{indices[loop.index0]}} </span>{{ match }}</p>
-      {% endfor %}
-    </div>
-  </div>
-
+<div class="container py-4">
+   <div class="row">
+      <div class="col-md-8 order-md-1">
+        <h4 class="mb-3">Regular Expression Tester</h4>
+        <hr>
+         <div class="mb-3">
+            <label>Regular Expression</label>
+            <input class="form-control" value="{{ regex }}">
+         </div>
+         <div class="mb-3">
+            <label>Test String</label>
+            <textarea name="test_str" class="form-control" id="stringInput" rows="7">{{ test_str }}</textarea>
+         </div>
+         <div class="mb-3">
+            <label>Match Result</label>
+            <div class="card" style="box-shadow:none;border:1px solid #ced4da;border-radius: .25rem;">
+               <div class="card-body">
+                  {% if matches|length == 0 %}
+                    <span style="color:#cf470c">No matches.</span>
+                  {% else %}
+                    {% set i = namespace(a=0) %}
+                    {% if indices|length == 0 %}
+                      {{ test_str }}
+                    {% else %}
+                      {% for word in test_str -%}
+                        {%- if loop.index0 >= indices[i.a][0] and loop.index0 < (indices[i.a][1]) -%}
+                          <span style="background-color:#abeaff;color:#0286b3">
+                            {{- word -}}
+                          </span>
+                        {%- elif i.a < (indices|length) - 1 and loop.index0 == indices[i.a][1] -%}
+                          {% set i.a = i.a + 1 %}
+                          {{- word -}}
+                        {%- else %}
+                          {{- word -}}
+                        {%- endif -%}
+                      {%- endfor %}
+                    {% endif %}
+                  {% endif %}
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- scrollspy -->
+      <div class="col-md-4 order-md-2 mb-4">
+         <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted">Match Information</span>
+            <span class="badge badge-secondary badge-pill">{{ matches|length }}</span>
+         </h4>
+         <div data-spy="scroll" data-target="#myScrollspy" data-offset="10"
+            style="height:200px;overflow-y: scroll;padding:5px; border: 1px solid #ccc;">
+            {% if matches|length == 0 %}
+              <span style="color:#cf470c">Your regular expression does not match the subject string.</span>
+            {% else %}
+              <ul class="list-group mb-3">
+               {% for match in matches %}
+                 <li>
+                    <div class="list-group-item d-flex justify-content-between lh-condensed" style="border-top:none;border-left:none;border-right:none">
+                       <h6 class="my-0">Match {{ loop.index }}</h6>
+                       <span class="text-muted">{{ match }}</span>
+                    </div>
+                 </li>
+               {% endfor %}
+              </ul>
+            {% endif %}
+         </div>
+      </div>
+   </div>
+</div>
 {% endblock %}
